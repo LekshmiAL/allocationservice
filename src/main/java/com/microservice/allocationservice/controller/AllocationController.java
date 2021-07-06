@@ -8,6 +8,7 @@ import com.microservice.allocationservice.vo.ResponseVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -99,5 +100,17 @@ public class AllocationController {
     @GetMapping("/employees/{projectId}")
     public List<Employee> getEmployees(@PathVariable Integer projectId){
         return service.getEmployees(projectId);
+    }
+
+    /**
+     * @param id - Employee id
+     * @return - All Mapped Projects Ids
+     */
+    @ApiOperation(value = "Get All Mapped Project Ids for Single Employee",
+            response = ResponseEntity.class, tags = "Allotment")
+    @GetMapping("/projectIds/{id}")
+    public ResponseEntity<int[]> getProjectIds(@PathVariable Integer id){
+
+        return service.getProjectIds(id);
     }
 }

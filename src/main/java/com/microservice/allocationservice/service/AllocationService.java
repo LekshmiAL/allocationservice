@@ -4,6 +4,7 @@ import com.microservice.allocationservice.model.Allocation;
 import com.microservice.allocationservice.model.Employee;
 import com.microservice.allocationservice.model.Project;
 import com.microservice.allocationservice.vo.ResponseVo;
+import org.springframework.http.ResponseEntity;
 
 import java.net.CacheResponse;
 import java.util.List;
@@ -23,6 +24,8 @@ public interface AllocationService {
     List<Employee> getEmployees(Integer projectId);
 
     List<ResponseVo> getAll();
+
+    ResponseEntity<int[]> getProjectIds(Integer id);
 }
 
 

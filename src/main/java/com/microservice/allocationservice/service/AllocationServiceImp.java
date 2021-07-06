@@ -6,6 +6,8 @@ import com.microservice.allocationservice.model.Project;
 import com.microservice.allocationservice.repository.AllocationRepository;
 import com.microservice.allocationservice.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -109,5 +111,18 @@ public class AllocationServiceImp implements AllocationService{
 
     public List<Integer> findAllEmployeeIdsByPid(int pid){
         return repository.findAllEmployeeIdsByPid(pid);
+    }
+
+    public ResponseEntity<int[]> getProjectIds(Integer empId){
+        ResponseEntity<int[]> responseEntity = null;
+        int[] ids;
+        List<Integer> listIds = findAllProjectIdByEmpId(empId);
+        if(!listIds.isEmpty()){
+            ids = new int[listIds.size()];
+            ids =   listIds.stream().mapToInt(Integer::intValue).toArray();
+            responseEntity = new ResponseEntity<>(ids, HttpStatus.ACCEPTED);
+        }
+
+        return responseEntity;
     }
 }
