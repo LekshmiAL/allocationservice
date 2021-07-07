@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// http://localhost:8090/swagger-ui.html
+
 @Api(value = "Swagger - 2 AllocationController")
 @RestController
 @RequestMapping("api/allocation")
