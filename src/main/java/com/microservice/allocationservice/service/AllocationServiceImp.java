@@ -62,7 +62,7 @@ public class AllocationServiceImp implements AllocationService{
         List<Integer> pids = findAllProjectIdByEmpId(empId);
         List<Project> projectList = new ArrayList<>();
         pids.forEach(pid-> {
-            Project project = restTemplate.getForObject("http://localhost:8092/api/project/"+pid, Project.class);
+            Project project = restTemplate.getForObject("http://Project-Service/api/project/"+pid, Project.class);
             projectList.add(project);
         });
         return projectList;
@@ -73,7 +73,7 @@ public class AllocationServiceImp implements AllocationService{
         List<Integer> eids = findAllEmployeeIdsByPid(projectId);
         List<Employee> employeeList = new ArrayList<>();
         eids.forEach(eid -> {
-            Employee employee = restTemplate.getForObject("http://localhost:8091/api/employee/"+eid, Employee.class);
+            Employee employee = restTemplate.getForObject("http://EMPLOYEE-SERVICE/api/employee/"+eid, Employee.class);
             employeeList.add(employee);
         });
         return  employeeList;
@@ -100,9 +100,9 @@ public class AllocationServiceImp implements AllocationService{
         responseVo.setAllotment(allocation);
         int eid = allocation.getEmployeeId();
         int pid = allocation.getProjectId();
-        Employee employee = restTemplate.getForObject("http://localhost:8091/api/employee/"+eid, Employee.class);
+        Employee employee = restTemplate.getForObject("http://EMPLOYEE-SERVICE/api/employee/"+eid, Employee.class);
         responseVo.setEmployee(employee);
-        Project project = restTemplate.getForObject("http://localhost:8092/api/project/"+pid, Project.class);
+        Project project = restTemplate.getForObject("http://Project-Service/api/project/"+pid, Project.class);
         responseVo.setProject(project);
         return responseVo;
     }
