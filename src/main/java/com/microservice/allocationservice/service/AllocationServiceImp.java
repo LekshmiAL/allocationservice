@@ -47,8 +47,6 @@ public class AllocationServiceImp implements AllocationService{
         if(getAllocationById(id)!=null){
             repository.deleteById(id);
             returnStatus = true;
-        }else{
-            returnStatus = false;
         }
         return returnStatus;
     }
@@ -56,8 +54,7 @@ public class AllocationServiceImp implements AllocationService{
     @Override
     public ResponseVo findAllotmentById(Integer id) {
         Allocation allocation = getAllocationById(id);
-        ResponseVo responseVo = getResponseVo(allocation);
-        return responseVo;
+        return getResponseVo(allocation);
     }
 
     @Override
@@ -93,6 +90,11 @@ public class AllocationServiceImp implements AllocationService{
         return responseVoList;
     }
 
+    /**
+     * get Employee detail and project details of an allocation
+     * @param allocation - allocation details
+     * @return ResponseVo
+     */
     public ResponseVo getResponseVo(Allocation allocation){
         ResponseVo responseVo = new ResponseVo();
         responseVo.setAllotment(allocation);
@@ -105,14 +107,8 @@ public class AllocationServiceImp implements AllocationService{
         return responseVo;
     }
 
-    public List<Integer> findAllProjectIdByEmpId(int empId){
-        return repository.findAllProjectIdByEmpId(empId);
-    }
 
-    public List<Integer> findAllEmployeeIdsByPid(int pid){
-        return repository.findAllEmployeeIdsByPid(pid);
-    }
-
+    @Override
     public ResponseEntity<int[]> getProjectIds(Integer empId){
         ResponseEntity<int[]> responseEntity = null;
         int[] ids;
@@ -124,5 +120,38 @@ public class AllocationServiceImp implements AllocationService{
         }
 
         return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity<int[]> getEmpIds(Integer projectId){
+        ResponseEntity<int[]> responseEntity = null;
+        int[] ids;
+        List<Integer> listIds = findAllEmployeeIdsByPid(projectId);
+
+        if(!listIds.isEmpty()){
+            ids = new int[listIds.size()];
+            ids =   listIds.stream().mapToInt(Integer::intValue).toArray();
+            responseEntity = new ResponseEntity<>(ids, HttpStatus.ACCEPTED);
+        }
+
+        return responseEntity;
+    }
+
+    /***
+     * find all projects id mapped to an EmpId
+     * @param empId
+     * @return
+     */
+    public List<Integer> findAllProjectIdByEmpId(int empId){
+        return repository.findAllProjectIdByEmpId(empId);
+    }
+
+    /**
+     * find all employee id mapped to a ProjectId
+     * @param pid
+     * @return
+     */
+    public List<Integer> findAllEmployeeIdsByPid(int pid){
+        return repository.findAllEmployeeIdsByPid(pid);
     }
 }

@@ -84,7 +84,8 @@ public class AllocationController {
 
     /**
      * get all project details of an employee
-     * @param empId
+     * @param empId - employee id
+     * @return list of Projects
      */
     @ApiOperation(value = "get all project details of an employee",
             response = List.class, tags = "Allotment")
@@ -95,7 +96,8 @@ public class AllocationController {
 
     /**
      * get all employee details of a project
-     * @param projectId
+     * @param projectId - project id
+     * @return list of employees
      */
     @ApiOperation(value = "get all employee details of a project",
             response = List.class, tags = "Allotment")
@@ -105,6 +107,7 @@ public class AllocationController {
     }
 
     /**
+     * Get All Mapped Project Ids for Single Employee
      * @param id - Employee id
      * @return - All Mapped Projects Ids
      */
@@ -114,5 +117,18 @@ public class AllocationController {
     public ResponseEntity<int[]> getProjectIds(@PathVariable Integer id){
 
         return service.getProjectIds(id);
+    }
+
+    /**
+     * Get All Mapped Employee Ids for Single Project
+     * @param id - Project id
+     * @return - All Mapped Employee Ids
+     */
+    @ApiOperation(value = "Get All Mapped Employee Ids for Single Project",
+            response = ResponseEntity.class, tags = "Allotment")
+    @GetMapping("/employeeIds/{id}")
+    public ResponseEntity<int[]> getEmployeeIds(@PathVariable Integer id){
+
+        return service.getEmpIds(id);
     }
 }

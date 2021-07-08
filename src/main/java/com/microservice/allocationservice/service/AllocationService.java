@@ -26,6 +26,8 @@ public interface AllocationService {
     List<ResponseVo> getAll();
 
     ResponseEntity<int[]> getProjectIds(Integer id);
+
+    ResponseEntity<int[]> getEmpIds(Integer id);
 }
 
 
