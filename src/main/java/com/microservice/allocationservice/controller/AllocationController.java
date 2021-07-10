@@ -72,7 +72,7 @@ public class AllocationController {
      */
     @ApiOperation(value = "Remove the Employee From Allocation",
             response = String.class, tags = "Allotment")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteAllocationById(@PathVariable Integer id){
         boolean status = service.deleteAllocationById(id);
         if(status){

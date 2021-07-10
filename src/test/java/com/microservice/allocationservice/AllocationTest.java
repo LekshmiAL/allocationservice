@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.text.SimpleDateFormat;
@@ -25,10 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -94,6 +93,16 @@ public class AllocationTest {
     }
 
     @Test
+    public void testDeleteAllocation() throws Exception{
+        Allocation allocation = new Allocation(11, "5", 1, 2);
+        Mockito.when(service.deleteAllocationById(ArgumentMatchers.any())).thenReturn(true);
+
+        mockMvc.perform(delete("/api/allocation/delete/11"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Allocation with id 11 deleted."));
+    }
+
+    @Test
     public void getProjectsTest() throws Exception{
         List<Project> projectList = new ArrayList<>();
         projectList.add(new Project(110, "dell","Application","dell client",
@@ -124,4 +133,5 @@ public class AllocationTest {
                 .andExpect(jsonPath("$[0].id",Matchers.equalTo(101)))
                 .andExpect(jsonPath("$[1].id",Matchers.equalTo(102)));
     }
+
 }
